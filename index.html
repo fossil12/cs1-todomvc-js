@@ -65,7 +65,7 @@
 					</tfoot>
 				</table>
 			</section>
-			<input type="button" value="{{loginButtonText()}}" ng-click="login()">
+			<input type="button" value="{{loggedIn ? 'Logout' : 'Login'}}" ng-click="login()">
 			<footer id="info">
 				<p>Double-click to edit a todo.</p>
 				<p>

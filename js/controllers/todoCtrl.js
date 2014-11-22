@@ -10,8 +10,6 @@ angular.module('todomvc')
 			'use strict';
 
 			var todos = $scope.todos = store.todos;
-			var loggedIn = false;
-
 
 			$scope.newTodo = '';
 			$scope.editedTodo = null;
@@ -129,18 +127,18 @@ angular.module('todomvc')
 
 			// login
 			$scope.login = function () {
-				if (!loggedIn) {
-					loggedIn = store.login("foo");
+				if (!$scope.loggedIn) {
+					// store.login("foo").then(function (succeeded) {
+					// 	$scope.loggedIn = succeeded;
+					// });
+					$scope.loggedIn = true;
 				} else {
-					loggedIn = store.logout() ? false : true;
+					// store.logout().then(function (succeeded) {
+					// 	$scope.loggedIn = succeeded ? false : true
+					// });
+					$scope.loggedIn = false;
 				}
 			};
 
-			$scope.loginButtonText = function () {
-				if (loggedIn) {
-					return "Logout";
-				} else {
-					return "Login";
-				}
-			};
+			$scope.loggedIn;
 		});
