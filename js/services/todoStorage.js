@@ -96,6 +96,24 @@ angular.module('todomvc')
 										angular.copy(originalTodos, store.todos);
 										return originalTodos;
 									});
+						},
+
+						login: function (username) {
+							return $http.post(apiUri + '/login/' + username)
+									.then(function success() {
+										return true;
+									}, function error() {
+										return false;
+									});
+						},
+
+						logout: function () {
+							return $http.post(apiUri + '/logout')
+									.then(function success() {
+										return true;
+									}, function error() {
+										return false;
+									});
 						}
 					};
 
