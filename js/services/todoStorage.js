@@ -16,6 +16,7 @@ angular.module('todomvc')
 			//var apiUri = "http://127.0.0.1:5000",
 					store = {
 						todos: [],
+						username: "Dave",
 
 						clearCompleted: function () {
 							var originalTodos = store.todos.slice(0);
@@ -32,11 +33,11 @@ angular.module('todomvc')
 							angular.copy(incompleteTodos, store.todos);
 
 							promises = _.map(completeTodos, function (todo) {
-								return $http.delete(apiUri + '/todos/' + todo.id)
+								return $http.delete(apiUri + '/todos/' + todo.id, {params: {username: store.username}})
 									.then(function success() {
 										return true;
 									}, function error() {
-											return false;
+										return false;
 									});
 							});
 
@@ -55,7 +56,7 @@ angular.module('todomvc')
 
 							store.todos.splice(store.todos.indexOf(todo), 1);
 
-							return $http.delete(apiUri + '/todos/' + todo.id)
+							return $http.delete(apiUri + '/todos/' + todo.id, {params: {username: store.username}})
 									.then(function success() {
 										return store.todos;
 									}, function error() {
@@ -65,7 +66,7 @@ angular.module('todomvc')
 						},
 
 						get: function () {
-							return $http.get(apiUri + '/todos')
+							$http.get(apiUri + '/todos', {params: {username: store.username}})
 									.then(function (resp) {
 										angular.copy(resp.data, store.todos);
 										return store.todos;
@@ -75,7 +76,7 @@ angular.module('todomvc')
 						create: function (todo) {
 							var originalTodos = store.todos.slice(0);
 
-							return $http.post(apiUri + '/todos', todo)
+							return $http.post(apiUri + '/todos', todo, {params: {username: store.username}})
 									.then(function success(resp) {
 										todo.id = resp.data.id;
 										store.todos.push(todo);
@@ -89,7 +90,7 @@ angular.module('todomvc')
 						put: function (todo) {
 							var originalTodos = store.todos.slice(0);
 
-							return $http.put(apiUri + '/todos/' + todo.id, todo)
+							return $http.put(apiUri + '/todos/' + todo.id, todo, {params: {username: store.username}})
 									.then(function success() {
 										return store.todos;
 									}, function error() {
@@ -99,7 +100,7 @@ angular.module('todomvc')
 						},
 
 						login: function (username) {
-							return $http.post(apiUri + '/login/' + username)
+							return $http.post(apiUri + '/login/' + username, "", {params: {username: store.username}})
 									.then(function success() {
 										return true;
 									}, function error() {
@@ -108,7 +109,7 @@ angular.module('todomvc')
 						},
 
 						logout: function () {
-							return $http.post(apiUri + '/logout')
+							return $http.post(apiUri + '/logout', "", {params: {username: store.username}})
 									.then(function success() {
 										return true;
 									}, function error() {
