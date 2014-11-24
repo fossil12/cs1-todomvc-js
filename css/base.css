@@ -223,6 +223,7 @@ input[type="checkbox"] {
 }
 
 #todo-list tr label {
+	float: left;
 	white-space: pre;
 	word-break: break-word;
 	padding: 15px 60px 15px 15px;
@@ -231,6 +232,13 @@ input[type="checkbox"] {
 	line-height: 1.2;
 	-webkit-transition: color 0.4s;
 	transition: color 0.4s;
+	width: 60%;
+}
+
+#todo-list tr .timer {
+	float: right;
+	width: 20%;
+	margin-top: 20px;
 }
 
 #todo-list tr.completed label {

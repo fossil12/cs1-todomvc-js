@@ -33,7 +33,11 @@
 						</td>
 						<td>
 							<div class="view">
-								<label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
+								<label ng-dblclick="editTodo(todo)">{{todo.subject}}</label>
+								<div class="timer">
+									<input type="button" value="{{todo.timeButtonText}}" ng-click="timerButtonClicked(todo)">
+									<span class="time">{{timeForTodoId(todo.id)}}</span>
+								</div>
 								<button class="destroy" ng-click="removeTodo(todo)"></button>
 							</div>
 							<form ng-submit="saveEdits(todo, 'submit')">

@@ -10,6 +10,7 @@ angular.module('todomvc')
 			'use strict';
 
 			var todos = $scope.todos = store.todos;
+			var runningTodoIds = {};
 
 			$scope.newTodo = '';
 			$scope.editedTodo = null;
@@ -32,7 +33,7 @@ angular.module('todomvc')
 
 			$scope.addTodo = function () {
 				var newTodo = {
-					title: $scope.newTodo.trim(),
+					subject: $scope.newTodo.trim(),
 					completed: false
 				};
 
@@ -141,4 +142,34 @@ angular.module('todomvc')
 			};
 
 			$scope.loggedIn;
+
+			// start and stop timers
+			$scope.timerButtonClicked = function (todo) {
+				var currentDate = new Date();
+				var timeObject = {};
+
+				// timer runing
+				// stop it and send it to server
+				// TODO: check if the sending was successfull
+				if (runningTodoIds[todo.id]) {
+					runningTodoIds[todo.id] = false;
+					timeObject = _.last(todo.times);
+					timeObject.end = currentDate;
+					store.sendTime(todo.id, timeObject);
+					todo.timeButtonText = "Start";
+				} else {
+					runningTodoIds[todo.id] = true;
+					timeObject.start = currentDate;
+					todo.times.push(timeObject);
+					todo.timeButtonText = "Stop";
+				}
+			}
+
+			$scope.timeForTodoId = function (todo) {
+				return "0:00";
+			}
+
+			$scope.running = function () {
+				return "Start";
+			}
 		});

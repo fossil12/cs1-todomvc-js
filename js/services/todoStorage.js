@@ -67,10 +67,27 @@ angular.module('todomvc')
 
 						get: function () {
 							$http.get(apiUri + '/todos', {params: {username: store.username}})
+							.then(function (resp) {
+								angular.copy(resp.data, store.todos);
+
+								// load all times for each item
+								return _.each(store.todos, function (todo) {
+									todo.timeButtonText = "Start";
+									$http.get(apiUri + '/todos/' + todo.id + '/times', {params: {username: store.username}})
 									.then(function (resp) {
-										angular.copy(resp.data, store.todos);
-										return store.todos;
+										// if there doesn't exist any data already
+										// TODO: it currently looks like the api always returns 0
+										if (resp.data === "null") {
+											todo.times = [];
+										} else {
+											todo.times = resp.data;
+										}
+										return todo.times;
 									});
+								});
+
+								return store.todos;
+							});
 						},
 
 						create: function (todo) {
@@ -110,6 +127,16 @@ angular.module('todomvc')
 
 						logout: function () {
 							return $http.post(apiUri + '/logout', "", {params: {username: store.username}})
+									.then(function success() {
+										return true;
+									}, function error() {
+										return false;
+									});
+						},
+
+						sendTime: function (todoId, time) {
+							// POST /todos/:todo_id/times
+							return $http.post(apiUri + '/todos/' + todoId + '/times', time, {params: {username: store.username}})
 									.then(function success() {
 										return true;
 									}, function error() {
