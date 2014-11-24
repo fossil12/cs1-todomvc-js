@@ -128,15 +128,15 @@ angular.module('todomvc')
 			// login
 			$scope.login = function () {
 				if (!$scope.loggedIn) {
-					// store.login("foo").then(function (succeeded) {
-					// 	$scope.loggedIn = succeeded;
-					// });
-					$scope.loggedIn = true;
+					store.login(store.username).then(function (succeeded) {
+						$scope.loggedIn = succeeded;
+					});
+					//$scope.loggedIn = true;
 				} else {
-					// store.logout().then(function (succeeded) {
-					// 	$scope.loggedIn = succeeded ? false : true
-					// });
-					$scope.loggedIn = false;
+					store.logout().then(function (succeeded) {
+						$scope.loggedIn = succeeded ? false : true
+					});
+					//$scope.loggedIn = false;
 				}
 			};
 
